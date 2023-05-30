@@ -1,5 +1,7 @@
 package com.example.FolderManager.BE.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,11 +23,13 @@ public class Folder {
 
     private String name;
 
+    @JsonBackReference // Prevent serialization of parentFolder in subFolders
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Folder parentFolder;
 
     //bidirectional relationship
+    @JsonManagedReference // Serialize subFolders as normal
     @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL)
     private List<Folder> subFolders;
 

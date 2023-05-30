@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -41,5 +42,19 @@ public class FolderService {
         }else{
             return ResponseEntity.ok(new ErrorResponse("Folder not found"));
         }
+    }
+
+    public ResponseEntity<?> getFolderDetails(Long id){
+        Optional<Folder> folder = folderRepository.findById(id);
+        if(folder.isPresent()){
+            return ResponseEntity.ok(folder.get());
+        }else {
+            return ResponseEntity.ok(new ErrorResponse("Folder not found"));
+        }
+    }
+
+    public ResponseEntity<List<Folder>> getAllFolderDetails(){
+     List<Folder> folderList = folderRepository.findAll();
+     return ResponseEntity.ok(folderList);
     }
 }
